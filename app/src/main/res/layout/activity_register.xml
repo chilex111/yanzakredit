@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yanza.kredit.activity.RegisterActivity">
+    <FrameLayout
+        android:id="@+id/imageFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:elevation="6dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.yanza.kredit.view.CircleImageView
+            android:id="@+id/imgPhoto"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/placeholder"/>
+        <ImageButton
+            android:id="@+id/photoButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src= "@drawable/ic_menu_camera1"
+            android:background="@drawable/circle"
+            android:contentDescription="@string/app_name"
+            android:padding="8dp"
+            android:layout_gravity="bottom|end"/>
+
+    </FrameLayout>
+
+    <ScrollView android:layout_width="0dp" android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageFrame"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guide"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.2"
+            android:padding="20dp"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText android:id="@+id/editFirstName"
+                    style="@style/EditText"
+                    android:inputType="textCapWords"
+                    android:hint="@string/first_name"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText android:id="@+id/editSurname"
+                    style="@style/EditText"
+                    android:layout_marginTop="10dp"
+                    android:inputType="textCapWords"
+                    android:hint="@string/surname"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText android:id="@+id/editEmail"
+                    style="@style/EditText"
+                    android:layout_marginTop="10dp"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/email"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText android:id="@+id/editPhone"
+                    style="@style/EditText"
+                    android:maxLength="11"
+                    android:layout_marginTop="10dp"
+                    android:inputType="phone"
+                    android:hint="@string/phone_number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleTint="@color/green"
+                app:passwordToggleEnabled="true">
+                <EditText android:id="@+id/editPassword"
+                    style="@style/EditText"
+                    android:layout_marginTop="20dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/password"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputConPasswrd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleTint="@color/green"
+                app:passwordToggleEnabled="true">
+                <EditText android:id="@+id/editConPassword"
+                    style="@style/EditText"
+                    android:layout_marginTop="20dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/confirm_password"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <EditText android:id="@+id/editHomeAddress"
+                style="@style/EditText"
+                android:layout_marginTop="10dp"
+                android:inputType="textCapSentences"
+                android:hint="@string/home_address"/>
+
+            <TextView android:id="@+id/editDOB"
+                style="@style/EditText"
+                android:layout_marginTop="10dp"
+                android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+                android:drawableTint="@color/green"
+                android:hint="@string/date_of_birth"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rectangle_grey_line">
+                <Spinner
+                    android:id="@+id/spinnerGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText android:id="@+id/editOfficeAddress"
+                    style="@style/EditText"
+                    android:layout_marginTop="10dp"
+                    android:inputType="textCapSentences"
+                    android:hint="@string/office_address"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical">
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/green"
+                    android:textSize="16sp"
+                    />
+                <TextView
+                    android:id="@+id/terms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:textColor="@color/green"
+                    android:layout_gravity="bottom"
+                    android:text="@string/i_agree_to_the_terms_and_condition" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/btnRegister"
+                android:text="@string/register"
+                style="@style/Button_dark_green"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                style="@style/TextView_small"
+                android:layout_gravity="center"
+                android:text="@string/already_have_an_account"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/btnLogin"
+                android:text="@string/log_in"
+                android:background="@android:color/transparent"
+                style="@style/TextView"
+                android:layout_gravity="center"
+                android:textColor="@color/green"/>
+        </LinearLayout>
+    </ScrollView>
+    <include layout="@layout/template_progress"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

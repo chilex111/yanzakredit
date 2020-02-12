@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="4dp"
+    app:cardBackgroundColor="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:background="@color/white"
+        android:layout_margin="4dp">
+        <TextView
+            android:id="@+id/text"
+            style="@style/TextView"
+            android:text="@string/card_type"
+            android:textColor="@color/grey"/>
+
+        <TextView
+            android:id="@+id/textCardType"
+            style="@style/TextView"
+            android:text="@string/card_type"
+            android:gravity="end"
+            android:layout_toEndOf="@+id/text"
+            android:layout_alignEnd="@+id/text"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_marginTop="16dp"
+            style="@style/TextView_small_bold"
+            android:text="@string/card_no"
+            android:layout_below="@+id/text"/>
+
+        <TextView
+            android:id="@+id/textCardNo"
+            style="@style/TextView"
+            android:text="@string/card_type"
+            android:gravity="end"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@+id/text1"
+            android:layout_below="@id/textCardType"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_marginTop="16dp"
+            style="@style/TextView_small_bold"
+            android:text="@string/expiry_date"
+            android:layout_below="@+id/text1"/>
+
+        <TextView
+            android:id="@+id/textExpiry"
+            style="@style/TextView"
+            android:text="@string/card_type"
+            android:gravity="end"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@+id/text3"
+            android:layout_below="@id/text1"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/text2"
+            style="@style/TextView_small_bold"
+            android:text="@string/cvv"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/text3"/>
+
+        <TextView
+            android:id="@+id/textCardCVV"
+            style="@style/TextView"
+            android:text="@string/card_type"
+            android:gravity="end"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@+id/text2"
+            android:layout_below="@id/text3"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
