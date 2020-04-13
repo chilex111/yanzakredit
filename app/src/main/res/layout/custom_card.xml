@@ -18,14 +18,16 @@
         <TextView
             android:id="@+id/text"
             style="@style/TextView"
-            android:text="@string/card_type"
+            android:textSize="12sp"
+            android:text="@string/bank_name"
             android:textColor="@color/grey"/>
 
         <TextView
             android:id="@+id/textCardType"
             style="@style/TextView"
-            android:text="@string/card_type"
+            android:text="@string/bank_name"
             android:gravity="end"
+            android:textSize="12sp"
             android:layout_toEndOf="@+id/text"
             android:layout_alignEnd="@+id/text"
             android:layout_alignParentEnd="true"/>
@@ -35,6 +37,7 @@
             android:layout_marginTop="16dp"
             style="@style/TextView_small_bold"
             android:text="@string/card_no"
+            android:textSize="12sp"
             android:layout_below="@+id/text"/>
 
         <TextView
@@ -43,6 +46,7 @@
             android:text="@string/card_type"
             android:gravity="end"
             android:layout_marginTop="16dp"
+            android:textSize="12sp"
             android:layout_toEndOf="@+id/text1"
             android:layout_below="@id/textCardType"
             android:layout_alignParentEnd="true"/>
@@ -51,6 +55,7 @@
             android:id="@+id/text3"
             android:layout_marginTop="16dp"
             style="@style/TextView_small_bold"
+            android:textSize="12sp"
             android:text="@string/expiry_date"
             android:layout_below="@+id/text1"/>
 
@@ -60,6 +65,7 @@
             android:text="@string/card_type"
             android:gravity="end"
             android:layout_marginTop="16dp"
+            android:textSize="12sp"
             android:layout_toEndOf="@+id/text3"
             android:layout_below="@id/text1"
             android:layout_alignParentEnd="true"/>
@@ -68,6 +74,7 @@
             android:id="@+id/text2"
             style="@style/TextView_small_bold"
             android:text="@string/cvv"
+            android:textSize="12sp"
             android:layout_marginTop="16dp"
             android:layout_below="@+id/text3"/>
 
@@ -76,6 +83,7 @@
             style="@style/TextView"
             android:text="@string/card_type"
             android:gravity="end"
+            android:textSize="12sp"
             android:layout_marginTop="16dp"
             android:layout_toEndOf="@+id/text2"
             android:layout_below="@id/text3"

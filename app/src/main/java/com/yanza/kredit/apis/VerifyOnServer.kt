@@ -30,7 +30,7 @@ class VerifyOnServer(
                 val type = object : TypeToken<CardTokenModel>() {}.type
                 val cardTokenModel = gson.fromJson<CardTokenModel>(result, type)
                 try{
-                    if (cardTokenModel.status == "true"){
+                    if (cardTokenModel.status!!){
                         accessCode.value = cardTokenModel
 
                     }

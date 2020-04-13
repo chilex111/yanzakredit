@@ -55,7 +55,7 @@ class CardAdapter(private val cardModelList: List<CardsData>, private val contex
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         viewHolder = holder
 
-        val cardNum = "**** **** **** "+cardModelList[position].number
+        val cardNum = "**** **** "+cardModelList[position].number
         val cardCVV =  "***"
         val split =cardModelList[position].expiryYear?.substring(2)
         val cardExp =  "**/$split"

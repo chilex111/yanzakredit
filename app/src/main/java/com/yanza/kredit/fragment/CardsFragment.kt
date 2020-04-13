@@ -306,7 +306,7 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
             Log.i("ChargeCard_Success", transaction.reference + " Successful")
             transactionValue = transaction
             viewModel.verifyOnServer(transactionValue!!.reference).observe(activity!!, androidx.lifecycle.Observer {
-                if (it.status == "true") {
+                if (it.status!!) {
                     dialogProgress!!.dismiss()
                     dialog!!.dismiss()
                     cardList()
