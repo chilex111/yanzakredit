@@ -7,7 +7,9 @@ data class AcctNameModel(
     @SerializedName("data")
     val data: AcctData,
     @SerializedName("status")
-    val status: Boolean
+    val status: Boolean,
+    @SerializedName("msg")
+    val msg: String
 )
 
 data class AcctData(

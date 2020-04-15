@@ -229,14 +229,14 @@ private fun t_c(){
             override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length ==10) {
                     dialogBank.progressName.visibility = View.VISIBLE
-                    viewModel1.accountName(p0.toString(), bankSelected).observe(this@RegisterActivity, Observer {
+                    viewModel1.accountName(p0.toString(), bankIdSelected).observe(this@RegisterActivity, Observer {
                         dialogBank.inputName.visibility = View.VISIBLE
                         dialogBank.progressName.visibility = View.GONE
-                        if (it.status!!){
-                            dialogBank.editAccountName.setText(it.data?.name)
+                        if (it.status){
+                            dialogBank.editAccountName.setText(it.data.name)
 
                         }else{
-                            dialogBank.editAccountName.setText(it.data?.name)
+                            dialogBank.editAccountName.setText(it.data.name)
                         }
                     })
                 }

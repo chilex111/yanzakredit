@@ -158,7 +158,7 @@ class BanksFragment : Fragment(), CardListListener, StringListener {
         dialogBank.editAccountNo.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length ==10) {
-                    accountName(p0.toString(), bankSelected,dialogBank.progressName,dialogBank.editAccountName)
+                    accountName(p0.toString(), bankIdSelected,dialogBank.progressName,dialogBank.editAccountName)
                 }
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

@@ -20,10 +20,10 @@ class GetNameAsync(
             val url = Const.YANZA_KREDIT + "verifyaccount"
             val map = JSONObject()
 
-            map.put("account_number", acctNo)
-            map.put("bank_name", bankSelected)
+            map.put("number", acctNo)
+            map.put("bank_id", bankSelected?.toInt())
             try {
-                return HttpUtility.postJsonAuth(url, map)
+                return HttpUtility.postJson(url, map)
             } catch (e: Exception){}
             return null
         }
