@@ -17,13 +17,13 @@ class GetNameAsync(
     var errorString: MutableLiveData<String>
 ): AsyncTask<Void, Int, String>() {
         override fun doInBackground(vararg p0: Void?): String? {
-            val url = Const.YANZA_KREDIT + "accountnumber?name=$bankSelected&number=$acctNo"
+            val url = Const.YANZA_KREDIT + "verifyaccount"
             val map = JSONObject()
 
             map.put("account_number", acctNo)
             map.put("bank_name", bankSelected)
             try {
-                return HttpUtility.getRequestNoToken(url)
+                return HttpUtility.postJsonAuth(url, map)
             } catch (e: Exception){}
             return null
         }
