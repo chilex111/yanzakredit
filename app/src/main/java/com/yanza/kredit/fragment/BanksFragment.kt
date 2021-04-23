@@ -273,7 +273,7 @@ class BanksFragment : Fragment(), CardListListener, StringListener {
     override fun accountDetailsListener(bankName: String?, acctType: String?, acctNumber: String?, s: String?, acctID: String?) {
 
         if (s.equals("Details")){
-            val dialog = Dialog(activity, R.style.Dialog)
+            val dialog = Dialog(activity!!, R.style.Dialog)
             dialog.setContentView(R.layout.fragment_bank_detail)
             dialog.setCanceledOnTouchOutside(false)
             dialog.show()

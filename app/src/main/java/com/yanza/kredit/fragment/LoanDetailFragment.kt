@@ -24,7 +24,6 @@ import com.yanzu.kredit.R
 import com.yanza.kredit.enums.NavigationDirection
 import com.yanza.kredit.helper.getIntPreference
 import com.yanza.kredit.helper.getStringPreference
-import com.yanza.kredit.helper.hasActiveInternetConnection
 import com.yanza.kredit.helper.showAlert
 import com.yanza.kredit.listener.FragmentListener
 import com.yanza.kredit.model.loan_model.BankModel
@@ -53,6 +52,7 @@ class LoanDetailFragment : Fragment(), FragmentListener {
     private var listener: FragmentListener ?= null
     private var idselected: String ?= null
     private lateinit var viewModel: MainViewModel
+    private var amountpercent:Double ? = null
 
     // private var loanForm:FormModel?= null
     override fun onCreateView(
@@ -123,8 +123,8 @@ class LoanDetailFragment : Fragment(), FragmentListener {
                 val split = activity!!.getStringPreference(R.string.interest).split(":")
                 val interest =split[0].toDouble()
                 val deci = interest/ 100.0f
-                val percent = deci * amount
-                val total = percent + amount
+                 amountpercent = deci * amount
+                val total = amountpercent!! + amount
                 val decimalFormat = DecimalFormat("#,###.##")
                 val am = decimalFormat.format(java.lang.Double.parseDouble(total.toString()))
 
@@ -160,9 +160,6 @@ class LoanDetailFragment : Fragment(), FragmentListener {
                 }
             }
 
-
-
-
             val titleAdapter = ArrayAdapter(activity!!,android.R.layout.simple_spinner_dropdown_item, durationList)
             titleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerDuration!!.adapter = titleAdapter
@@ -170,6 +167,7 @@ class LoanDetailFragment : Fragment(), FragmentListener {
 
             spinnerDuration!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
+                    var total: Double
                     if (i == 0) {
                         Log.i("PersonalFragment", "Nothing selected")
                     } else {
@@ -177,6 +175,20 @@ class LoanDetailFragment : Fragment(), FragmentListener {
                         for (r in it.data){
                             if (v == r.value){
                                 idselected =r.id.toString()
+                                var flatRate = v/30
+                                var totalpercent = if(flatRate <= 1){
+                                    1 * amountpercent!!.toDouble()
+                                } else{
+                                    flatRate* amountpercent!!.toDouble()
+                                }
+                                val textV = editAmount!!.text.toString().replace(",", "").toDouble()
+
+                                total = totalpercent + textV
+
+                                val decimalFormat = DecimalFormat("#,###.##")
+                                val am = decimalFormat.format(java.lang.Double.parseDouble(total.toString()))
+                                println("AFter:: $am")
+                                totalAmount!!.text = am.toString()
                             }
                         }
                     }

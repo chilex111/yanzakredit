@@ -29,6 +29,8 @@ class SignUpAsync(private val register: Register, var responseModel: MutableLive
                 map.put("dob", register.dob)
                 map.put("gender_id", register.gender)
 
+                Log.d("Tagg_Register", "$map")
+
                 HttpUtility.postJson(Const.YANZA_KREDIT + "register", map)
             } catch (e: IOException) {
                 e.printStackTrace()

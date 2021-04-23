@@ -86,7 +86,7 @@ class CardAdapter(private val cardModelList: List<CardsData>, private val contex
                 }
             }
         }catch (e: Exception){
-            Log.i("CARD_TAG", e.message)
+            Log.i("CARD_TAG", e.message.toString())
         }
 
     }

@@ -32,7 +32,7 @@ class LoanLimitAsync(private var userId:Int) : AsyncTask<Void, Int, String>() {
                     val amount = formatter.format(userModel.data?.amount)
                     Yanza.applicationContext.saveToSharedPreference(R.string.loan_limit, amount)
                 }catch (e: Exception){
-                    Log.e("INTEREESY",  e.message)
+                    Log.e("INTEREESY", e.message.toString())
                 }
 
 

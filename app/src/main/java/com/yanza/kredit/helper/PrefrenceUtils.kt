@@ -127,7 +127,7 @@ fun Context.getIntPreference(@StringRes key: Int): Int {
 fun Context.getStringPreference(@StringRes key: Int): String {
     val value = getString(key)
     val prefs = getPrefs(this)
-    return prefs.getString(value, "")
+    return prefs.getString(value, "").toString()
 }
 
 fun Context.getBooleanPreference(@StringRes key: Int, defaultValue: Boolean = false): Boolean {

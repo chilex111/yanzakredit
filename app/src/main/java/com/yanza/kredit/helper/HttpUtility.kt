@@ -245,15 +245,15 @@ object HttpUtility {
                 HttpURLConnection.HTTP_OK -> {
                     `in` = BufferedInputStream(conn.inputStream)
                     readStream(`in`)
+                }HttpURLConnection.HTTP_CREATED -> {
+                    `in` = BufferedInputStream(conn.inputStream)
+                    readStream(`in`)
                 }
                 HttpURLConnection.HTTP_UNAUTHORIZED -> {
                     `in` = BufferedInputStream(conn.errorStream)
                     readStream(`in`)
                 }
-                HttpURLConnection.HTTP_CREATED -> {
-                    `in` = BufferedInputStream(conn.errorStream)
-                    readStream(`in`)
-                }HttpURLConnection.HTTP_INTERNAL_ERROR -> {
+                HttpURLConnection.HTTP_INTERNAL_ERROR -> {
                     `in` = BufferedInputStream(conn.errorStream)
                     readStream(`in`)
                 }

@@ -88,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
 
                         //saveToSharedPreference(R.string.status, loginModel?.userLoanstatus.toString())
 
-                        startActivity(Intent(this, DashboardActivity::class.java))
+                        startActivity(Intent(this, LogsActivity::class.java))
 
                     }
                 })

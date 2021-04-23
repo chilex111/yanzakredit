@@ -27,7 +27,7 @@ class GenderAsync : AsyncTask<Void, Int, String>() {
                 try {
                     Yanza.applicationContext.saveValueToSharedPrefs(R.string.array_gender, gender.data!!)
                 }catch (e: Exception){
-                    Log.e("INTEREESY",  e.message)
+                    Log.e("INTEREESY",  e.message.toString())
                 }
 
 

@@ -26,7 +26,7 @@ class LoginAsync(
                 map.put("password", passwordText)
                 return HttpUtility.postJson(url, map)
             }catch (e:Exception){
-                Log.i("TAG_LOGIN", e.message)
+                Log.i("TAG_LOGIN", e.message.toString())
             }
             return null
         }

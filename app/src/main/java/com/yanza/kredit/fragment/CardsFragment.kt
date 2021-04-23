@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +25,6 @@ import co.paystack.android.Transaction
 import co.paystack.android.exceptions.ExpiredAccessCodeException
 import co.paystack.android.model.Card
 import co.paystack.android.model.Charge
-import com.yanza.kredit.*
 import com.yanza.kredit.activity.DashboardActivity
 import com.yanza.kredit.adapter.CardAdapter
 
@@ -39,6 +39,8 @@ import kotlinx.android.synthetic.main.fragment_cards.*
 import kotlinx.android.synthetic.main.layout_card_details.*
 import kotlinx.android.synthetic.main.template_progress.*
 import com.yanzu.kredit.R
+import kotlinx.android.synthetic.main.content_dashboard.*
+import kotlinx.android.synthetic.main.custom_payment_split.*
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -62,8 +64,9 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
     private var cardModel: CardModel? = null
     private var payBack: String? = null
     private var loanId: Int? = null
-    private  var dialog: Dialog ?= null
-    private var dialogProgress : ProgressDialog ?= null
+    private var dialog: Dialog? = null
+    private var dialogProgress: ProgressDialog? = null
+    private var progessPay: ProgressBar? = null
     private var next: Button? = null
     private var cardNo: EditText? = null
     private var expiry: EditText? = null
@@ -72,14 +75,15 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
     private var expiryDateIsValid = false
     private var cardIsValid = false
     private var cvvIsValid = false
-    private var transactionValue : Transaction ?= null
+    private var transactionValue: Transaction? = null
     private lateinit var viewModel: MainViewModel
-  //  private var paystack_public_key: String?= null
-    private var accessCodeValue : String?= null
+
+    //  private var paystack_public_key: String?= null
+    private var accessCodeValue: String? = null
     private var pageValue: String? = null
-    private var cardNoText : String ?= null
-    private var cardExpiryText: String?= null
-    private var cardIdText: String?= null
+    private var cardNoText: String? = null
+    private var cardExpiryText: String? = null
+    private var cardIdText: String? = null
     private var listener1: LoanPayedListener? = null
     private var listener: FragmentListener? = null
 
@@ -119,39 +123,45 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
         errorMsg()
     }
 
-    private fun cardList(){
+    private fun cardList() {
         relativeProgress.visibility = View.VISIBLE
         txt1.visibility = View.GONE
-        viewModel.cardList(activity!!.getIntPreference(R.string.user_id)).observe(this, androidx.lifecycle.Observer {
-            relativeProgress.visibility = View.GONE
-            if (it.status!!)
-                if (it.data!!.isNotEmpty()) {
-                    txt1.visibility = View.VISIBLE
-                    val cardAdapter = CardAdapter(it.data, activity!!, pageValue)
-                    recyclerView!!.layoutManager = LinearLayoutManager(activity)
+        viewModel.cardList(activity!!.getIntPreference(R.string.user_id))
+            .observe(this, androidx.lifecycle.Observer {
+                relativeProgress.visibility = View.GONE
+                if (it.status!!)
+                    if (it.data!!.isNotEmpty()) {
+                        txt1.visibility = View.VISIBLE
+                        val cardAdapter = CardAdapter(it.data, activity!!, pageValue)
+                        recyclerView!!.layoutManager = LinearLayoutManager(activity)
 
-                    recyclerView!!.adapter = cardAdapter
-                    recyclerView!!.setHasFixedSize(true)
-                    recyclerView!!.requestFocus()
-                    // cardAdapter!!.notifyDataSetChanged()
-                } else{
-                    textEmpty!!.visibility = View.VISIBLE
-                }
-            /*else
-                textEmpty!!.visibility = View.VISIBLE*/
+                        recyclerView!!.adapter = cardAdapter
+                        recyclerView!!.setHasFixedSize(true)
+                        recyclerView!!.requestFocus()
+                        // cardAdapter!!.notifyDataSetChanged()
+                    } else {
+                        textEmpty!!.visibility = View.VISIBLE
+                    }
+                /*else
+                    textEmpty!!.visibility = View.VISIBLE*/
 
 
-        })
+            })
     }
 
-    fun  errorMsg(){
+    fun errorMsg() {
         viewModel.error().observe(this, androidx.lifecycle.Observer {
-            activity?.showSnack(it)
+            if (it.contains("API returned error")) {
+                activity?.showAlertError("Payment failled", it)
+            } else
+                activity?.showSnack(it)
             dialogProgress?.dismiss()
+            dialog?.dismiss()
+            adapterListener!!.adapterListener(true)
         })
     }
 
-    fun addCardClicked(){
+    fun addCardClicked() {
         initPayStack()
     }
 
@@ -166,8 +176,14 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
 
     }
 
-    override fun accountDetailsListener(cardNo: String?, cardExpiry: String?, cardId: String?, s: String?, auth_code: String?) {
-        if (payBack == null){
+    override fun accountDetailsListener(
+        cardNo: String?,
+        cardExpiry: String?,
+        cardId: String?,
+        s: String?,
+        auth_code: String?
+    ) {
+        if (payBack == null) {
             if (cardNo!!.isNotEmpty()) {
 
                 cardNoText = cardNo
@@ -181,15 +197,15 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
                 cardModel!!.authCode = auth_code
                 listener!!.onCardDetailSubmit(cardModel!!)
                 listener!!.onFragmentNavigation(NavigationDirection.CARD_DETAILS_FORWARD)
-            }else{
+            } else {
                 activity!!.showAlert("Invalid card Detail")
             }
-        }else{
-            if (payBack =="0"){
+        } else {
+            if (payBack == "0") {
                 activity!!.showAlert("You have no Outstanding Loan to pay back")
                 adapterListener!!.adapterListener(true)
 
-            }else {
+            } else {
                 //  if (buttonFrame!!.visibility == View.GONE) {
                 if (!cardNo!!.isEmpty() || loanId != 0) {
                     cardNoText = cardNo
@@ -199,7 +215,8 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
                     val localBuilder = AlertDialog.Builder(activity!!)
                     localBuilder.setMessage(msg)
                     localBuilder.setNeutralButton(R.string.ok) { _, _ ->
-                        paynow(cardId)
+                        // paynow(cardId)
+                        paymentPlan(cardId)
                     }
                     localBuilder.create().show()
                 } else {
@@ -209,10 +226,49 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
         }
 
     }
-    private fun paynow(cardId: String?) {
-        viewModel.payLoan(activity!!.getIntPreference(R.string.user_id), cardId,loanId!!).observe(this, androidx.lifecycle.Observer {response ->
 
+    private fun paymentPlan(cardId: String?) {
+        val msg = "Do you wish to pay some of the loan or all at once"
+        val localBuilder = AlertDialog.Builder(activity!!)
+        localBuilder.setMessage(msg)
+        localBuilder.setNeutralButton(R.string.pay_all) { _, _ ->
+            dialogProgress(true)
+            payNow(cardId, "")
+        }
+        localBuilder.setPositiveButton(R.string.pay_part) { _, _ ->
+            payPart(cardId)
+        }
+        localBuilder.create().show()
+    }
+
+    private fun payPart(cardId: String?) {
+        dialog = Dialog(activity!!)
+        dialog!!.setContentView(R.layout.custom_payment_split)
+        dialog!!.setCanceledOnTouchOutside(false)
+
+
+        dialog!!.buttonPay.setOnClickListener {
+            if (dialog!!.editAmt.text.toString().isNotEmpty()) {
+                dialogProgress(true)
+                payNow(cardId, dialog!!.editAmt.text.toString())
+            }
+        }
+
+        dialog!!.show()
+    }
+
+    private fun payNow(cardId: String?, amountToPay: String?) {
+        viewModel.payLoan(
+            activity!!.getIntPreference(R.string.user_id),
+            cardId,
+            loanId!!,
+            amountToPay
+        ).observe(this, androidx.lifecycle.Observer { response ->
+            progessPay!!.visibility = View.GONE
             if (response.status!!) {
+                dialogProgress(false)
+                Log.e("TAG RESPONSE", response.toString())
+
                 if (response.msg == "Payment Failed!") {
                     msgBox(response.msg)
                 } else {
@@ -220,7 +276,7 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
                     (activity as DashboardActivity).loanDetail()
                 }
                 adapterListener!!.adapterListener(true)
-            }else{
+            } else {
                 msgBox(response.msg!!)
                 adapterListener!!.adapterListener(true)
             }
@@ -228,7 +284,7 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
         })
     }
 
-    private fun msgBox(msg: String){
+    private fun msgBox(msg: String) {
         val localBuilder = AlertDialog.Builder(activity!!)
 
         localBuilder.setMessage(msg)
@@ -238,7 +294,8 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
         }
         localBuilder.create().show()
     }
-    fun addCard(){
+
+    private fun addCard() {
         dialog = Dialog(activity!!, R.style.Dialog)
         dialog!!.setContentView(R.layout.layout_card_details)
         dialog!!.setCanceledOnTouchOutside(false)
@@ -259,30 +316,40 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
         dialog!!.buttonNext.setOnClickListener {
             validateCardForm()
             if (card != null && card!!.isValid) {
-                dialogProgress = ProgressDialog(activity)
-                dialogProgress!!.setMessage("Performing transaction... please wait")
-                dialogProgress!!.setCancelable(true)
-                dialogProgress!!.setCanceledOnTouchOutside(true)
-                dialogProgress!!.show()
-
-                viewModel.addCard(activity!!.getIntPreference(R.string.user_id)).observe(this, androidx.lifecycle.Observer {
-                    if (it.status!!){
-                        accessCodeValue = it.data?.accessCode
-                        try {
-                            startAFreshCharge(it.data?.accessCode!!)
-                        } catch (e: Exception) {
-                            Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
+                dialogProgress(true)
+                viewModel.addCard(activity!!.getIntPreference(R.string.user_id))
+                    .observe(this, androidx.lifecycle.Observer {
+                        if (it.status!!) {
+                            accessCodeValue = it.data?.accessCode
+                            try {
+                                startAFreshCharge(it.data?.accessCode!!)
+                            } catch (e: Exception) {
+                                Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
+                            }
+                        } else {
+                            activity!!.showAlert("Card cannot be tokenize, Try again !!!")
                         }
-                    }else{
-                        activity!!.showAlert("Card cannot be tokenize, Try again !!!")
-                    }
-                })
+                    })
 
 
             }
         }
 
         dialog!!.show()
+    }
+
+    private fun dialogProgress(isShow: Boolean) {
+
+        dialogProgress = ProgressDialog(activity)
+        dialogProgress!!.setMessage("Performing transaction... please wait")
+        dialogProgress!!.setCancelable(true)
+        dialogProgress!!.setCanceledOnTouchOutside(true)
+        if (!isShow)
+            dialogProgress!!.dismiss()
+        else
+            dialogProgress!!.show()
+
+
     }
 
     private fun startAFreshCharge(accessCode: String) {
@@ -305,15 +372,16 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
         override fun onSuccess(transaction: Transaction) {
             Log.i("ChargeCard_Success", transaction.reference + " Successful")
             transactionValue = transaction
-            viewModel.verifyOnServer(transactionValue!!.reference).observe(activity!!, androidx.lifecycle.Observer {
-                if (it.status!!) {
-                    dialogProgress!!.dismiss()
-                    dialog!!.dismiss()
-                    cardList()
-                }else{
-                    activity!!.showAlert("Card cannot be tokenize, Try again !!!")
-                }
-            })
+            viewModel.verifyOnServer(transactionValue!!.reference)
+                .observe(activity!!, androidx.lifecycle.Observer {
+                    if (it.status!!) {
+                        dialogProgress!!.dismiss()
+                        dialog!!.dismiss()
+                        cardList()
+                    } else {
+                        activity!!.showAlert("Card cannot be tokenize, Try again !!!")
+                    }
+                })
 
 
         }
@@ -434,7 +502,12 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
         when (cardValidity) {
             CardValidity.CARD_NO -> {
                 if (z) {
-                    card = Card.Builder(this.cardNo!!.text.toString().trim().replace(" ", ""), Integer.valueOf(0), Integer.valueOf(0), "").build()
+                    card = Card.Builder(
+                        this.cardNo!!.text.toString().trim().replace(" ", ""),
+                        Integer.valueOf(0),
+                        Integer.valueOf(0),
+                        ""
+                    ).build()
                     expiry!!.addTextChangedListener(
                         CreditCardFormatter(
                             CardValidity.EXPIRY_DATE,
@@ -509,7 +582,8 @@ class CardsFragment : Fragment(), PayStackCardValidationListener, CardListListen
 
 
     companion object {
-        var adapterListener : AdapterListener?= null
+        var adapterListener: AdapterListener? = null
+
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: CardModel?, param2: String?, param3: Int?) =

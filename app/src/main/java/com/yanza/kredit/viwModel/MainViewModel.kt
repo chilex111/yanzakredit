@@ -49,8 +49,13 @@ class MainViewModel : ViewModel() {
         return repository.error()
     }
 
-    fun payLoan(userId: Int, cardId: String?, loanId: Int):LiveData<ResponseBooleanModel> {
-        return repository.payLoan(userId, cardId, loanId)
+    fun payLoan(
+        userId: Int,
+        cardId: String?,
+        loanId: Int,
+        amountToPay: String?
+    ):LiveData<ResponseBooleanModel> {
+        return repository.payLoan(userId, cardId, loanId, amountToPay)
     }
 
     fun loanDetail(userId:Int):LiveData<LoanModel> {

@@ -26,7 +26,7 @@ class DurationAsync(var durationModel: MutableLiveData<DurationModel>, val error
                 try {
                     durationModel.value =  durModel
                 }catch (e: Exception){
-                    Log.e("INTEREESY",  e.message)
+                    Log.e("INTEREESY",  e.message.toString())
                     errorString.value = e.message
                 }
 

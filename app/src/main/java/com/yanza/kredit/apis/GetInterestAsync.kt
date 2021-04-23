@@ -29,7 +29,7 @@ class GetInterestAsync : AsyncTask<Void, Int, String>() {
                 try {
                     Yanza.applicationContext.saveToSharedPreference(R.string.interest, "${userModel.data?.rate!!}:${userModel.data.id}")
                 }catch (e: Exception){
-                    Log.e("INTEREESY",  e.message)
+                    Log.e("INTEREESY", e.message.toString())
                 }
 
 

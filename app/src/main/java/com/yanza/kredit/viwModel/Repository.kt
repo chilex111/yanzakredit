@@ -89,8 +89,13 @@ class Repository {
         return historyModel
     }
 
-    fun payLoan(userId: Int, cardId: String?, loanId:Int): LiveData<ResponseBooleanModel> {
-        PayNowAsync(userId, cardId, loanId,responseBooleanModel, errorString).execute()
+    fun payLoan(
+        userId: Int,
+        cardId: String?,
+        loanId: Int,
+        amountToPay: String?
+    ): LiveData<ResponseBooleanModel> {
+        PayNowAsync(userId, cardId, loanId, amountToPay,responseBooleanModel, errorString).execute()
         return responseBooleanModel
     }
 

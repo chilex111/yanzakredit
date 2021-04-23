@@ -22,17 +22,10 @@ class SplashActivity : AppCompatActivity() {
                 setContentView(R.layout.activity_splash)
                 val secondsDelay = 1
                 Handler().postDelayed({
-                    if (getStringPreference(R.string.login)=="1"){
-                        if (getStringPreference(R.string.password).isNotEmpty()){
-                            val intent = Intent(this@SplashActivity, DashboardActivity::class.java)
+                    if (getStringPreference(R.string.login) =="1"){
+                            val intent = Intent(this@SplashActivity, LogsActivity::class.java)
                             startActivity(intent)
                             this@SplashActivity.finish()
-                        }
-                        else{
-                            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
-                            startActivity(intent)
-                            this@SplashActivity.finish()
-                        }
 
                     }else {
                         val intent = Intent(this@SplashActivity, AuthDashActivity::class.java)

@@ -152,7 +152,7 @@ private fun t_c(){
     d.txtT_C.movementMethod = ScrollingMovementMethod()
     d.show()
 }
-    fun registerClicked(){
+    private fun registerClicked(){
         //fixme call api
         if (validate()) {
             relativeProgress.visibility = View.VISIBLE

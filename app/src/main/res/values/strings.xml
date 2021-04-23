@@ -37,12 +37,15 @@
     <string name="pay">Pay</string>
     <string name="preference_file">Yanza_kredit</string>
     <string name="login">logged_in</string>
+    <string name="pref_contact">pref_contact</string>
+    <string name="pref_contact_list">pref_contact_list</string>
     <string name="full_name">Full Name</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="email_address">Email Address</string>
     <string name="no_available_value">No available data</string>
     <string name="total_due">Total Due</string>
     <string name="loan_amount">Loan Amount</string>
+    <string name="payback_amount">Payback Amount</string>
     <string name="card_number">Card Number</string>
     <string name="expiry_date">Expiry Date (MM/YY)</string>
     <string name="cvv">CVV</string>
@@ -50,6 +53,8 @@
     <string name="card_details">Card Details</string>
     <string name="user_id">user id</string>
     <string name="ok">OK</string>
+    <string name="pay_all">Pay All Now</string>
+    <string name="pay_part">Pay Some Now</string>
     <string name="card_type">Card type</string>
     <string name="card_no">Card Number</string>
     <string name="loan_duration">duration</string>
@@ -191,4 +196,5 @@ Disbursement will, however, be subject to the customer meeting internal and regu
     <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
     <string name="i_agree_to_the_terms_and_condition">I agree to the terms and conditions</string>
     <string name="interest_rate">Interest rate (%)</string>
+    <string name="logs_msg">Please Wait \n while we set up your account</string>
 </resources>

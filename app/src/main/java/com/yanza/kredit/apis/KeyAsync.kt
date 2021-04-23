@@ -26,7 +26,7 @@ class KeyAsync(var keyModel: MutableLiveData<KeyModel>) : AsyncTask<Void, Int, S
                 try {
                     keyModel.value = model
                 }catch (e: Exception){
-                    Log.e("INTEREESY",  e.message)
+                    Log.e("INTEREESY", e.message.toString())
                 }
 
 
